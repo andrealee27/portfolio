@@ -413,16 +413,11 @@
     gap: 2px;
   }
   .sketch-item {
-  overflow: hidden;
-  position: relative;
-  background: #111;
-}
-
-.sketch-item::before {
-  content: "";
-  display: block;
-  padding-top: 133.33%; /* 3:4 ratio */
-}
+    overflow: hidden;
+    position: relative;
+    background: #111;
+    aspect-ratio: 3/4;
+  }
   .sketch-placeholder {
     position: absolute;
     inset: 0;
@@ -621,34 +616,16 @@
     gap: 2px;
   }
   .featured-img-main,
-.featured-img-secondary {
-  position: relative;
-  overflow: hidden;
-}
-
-/* main image stays cropped (good) */
-.featured-img-main img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* sketch: center + show full image */
-.featured-img-secondary{
-  overflow: hidden; /* keep */
-  background: #0a0a0a; /* optional */
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.featured-img-secondary img{
-  width: 100%;
-  height: 100%;
-  object-fit: contain;   /* key */
-  display: block;
-}
+  .featured-img-secondary {
+    position: relative;
+    overflow: hidden;
+  }
+  .featured-img-main img,
+  .featured-img-secondary img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
   .featured-img-tag {
     position: absolute;
     top: 16px; left: 16px;
@@ -1074,37 +1051,6 @@ footer{
     align-items: flex-start;
   }
 }
-/* CONTACT — bigger + true black */
-#contact .contact-heading{
-  font-size: clamp(3.8rem, 6vw, 6rem); /* bigger */
-  font-weight: 900;
-  color: #000 !important;              /* true black */
-  -webkit-text-fill-color: #000 !important;
-}
-
-#contact .contact-subtext{
-  font-size: 1.35rem;                  /* bigger */
-  color: #000 !important;
-  -webkit-text-fill-color: #000 !important;
-}
-
-#contact label{
-  font-size: 0.68rem;                  /* bigger */
-  color: #000 !important;
-  -webkit-text-fill-color: #000 !important;
-}
-
-#contact input,
-#contact textarea{
-  font-size: 1rem;                     /* bigger */
-  color: #000 !important;
-  -webkit-text-fill-color: #000 !important;
-}
-
-#contact input::placeholder,
-#contact textarea::placeholder{
-  color: #444 !important;
-}
 </style>
 </head>
 <body>
@@ -1124,12 +1070,12 @@ footer{
 <nav>
   <a href="#" class="nav-logo">Andrea Lee — Fashion Creative</a>
   <ul class="nav-links">
-    <li><a href="#about">About</a></li>
     <li><a href="#sketches">Sketches</a></li>
     <li><a href="#lookbooks">Trendboards</a></li>
     <li><a href="#featured">Strawberry Skirt</a></li>
     <li><a href="#bamboo">Bamboo Frames</a></li>
     <li><a href="#classwork">Class Work</a></li>
+    <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -1175,8 +1121,8 @@ footer{
 <!-- ABOUT -->
 <section class="about" id="about">
   <div class="about-portrait">
-    <img src="assets/images/about-portrait.jpg" alt="Andrea Lee portrait"
-         style="width:100%;height:100%;object-fit:cover;display:block;">
+    <div class="p-icon">👤</div>
+    <span>Your Portrait</span>
   </div>
   <div class="about-text reveal">
     <p class="section-label">About</p>
@@ -1212,34 +1158,30 @@ footer{
   </div>
   <div class="sketches-grid reveal">
 
-    <!-- Vogue Model Sketch -->
-<div class="sketch-item">
-  <img class="project-img"
-       src="assets/images/vogue-model.jpg"
-       alt="Vogue model sketch"
-       onerror="this.style.display='none'; this.closest('.sketch-item').querySelector('.sketch-placeholder').style.display='flex';">
-
-  <div class="sketch-placeholder" style="display:none;">
-    <div class="p-icon">✏️</div>
-    <span>Vogue Model Sketch</span>
-  </div>
-
-  <div class="project-caption">
-    <p class="project-caption-cat">Figure Study — Pencil</p>
-    <p class="project-caption-title">Vogue Model Study</p>
-  </div>
-</div>
+    <!-- Shearling Jacket Croquis -->
+    <div class="sketch-item">
+      <img class="project-img" src="shearling-jacket.jpg" alt="Shearling jacket fashion croquis"
+      onerror="this.style.display='none'; this.closest('.sketch-item').querySelector('.sketch-placeholder').style.display='flex';">
+      <div class="sketch-placeholder" style="display:none;">
+        <div class="p-icon">✏️</div><span>Shearling Jacket Croquis</span>
+      </div>
+      <!-- To display: convert PDF to JPG and replace src above with the image filename -->
+      <div class="sketch-placeholder">
+        <div class="p-icon">✏️</div>
+        <span>Shearling Jacket Croquis</span>
+      </div>
+      <div class="project-caption">
+        <p class="project-caption-cat">Fashion Croquis — Watercolor & Ink</p>
+        <p class="project-caption-title">Shearling Jacket Look</p>
+      </div>
+    </div>
 
     <!-- Upside Down Shoe Study -->
     <div class="sketch-item">
-      <img class="project-img" src="assets/images/upside-down-shoe.jpg" alt="Upside-down shoe sketch"
-           onerror="this.style.display='none'; this.closest('.sketch-item').querySelector('.sketch-placeholder').style.display='flex';">
-    
-      <div class="sketch-placeholder" style="display:none; background: linear-gradient(145deg, #222, #333);">
+      <div class="sketch-placeholder" style="background: linear-gradient(145deg, #222, #333);">
         <div class="p-icon">✏️</div>
         <span>Shoe Observational Study</span>
       </div>
-    
       <div class="project-caption">
         <p class="project-caption-cat">Observational Drawing — Pencil & Watercolor</p>
         <p class="project-caption-title">Upside-Down Shoe Study</p>
@@ -1248,7 +1190,10 @@ footer{
 
     <!-- Sunglasses Sketches -->
     <div class="sketch-item">
-      <img class="project-img" src="assets/images/sunglasses-sketch.jpg" alt="Sunglasses sketches">
+      <div class="sketch-placeholder" style="background: linear-gradient(145deg, #181818, #282828);">
+        <div class="p-icon">✏️</div>
+        <span>Sunglasses Sketches</span>
+      </div>
       <div class="project-caption">
         <p class="project-caption-cat">Accessory Sketches — Pencil</p>
         <p class="project-caption-title">Sunglasses Series</p>
@@ -1286,7 +1231,7 @@ footer{
       <div class="trendboard-card-bottom">
         <span class="trendboard-season">SS / AW 2025</span>
         <!-- This is the Canva link that was mistakenly on Bamboo -->
-        <a href="https://www.canva.com/design/DAHASYXbSD4/fEE-9t801q389m3yr0VEmQ/view?utm_content=DAHASYXbSD4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hd1da635285" target="_blank" class="trendboard-link">
+        <a href="https://www.canva.com/design/DAG503A6vuk/w7XnAObes6h8sDO4bbMAHw/edit" target="_blank" class="trendboard-link">
           View Board <span class="trendboard-link-arrow">→</span>
         </a>
       </div>
@@ -1302,7 +1247,7 @@ footer{
       </div>
       <div class="trendboard-card-bottom">
         <span class="trendboard-season">SS 2025</span>
-        <a href=https://www.canva.com/design/DAHBh_i-jkY/vHzj1oypeTZJGThBIHnjcg/view?utm_content=DAHBh_i-jkY&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h33903455b8 target="_blank" class="trendboard-link">
+        <a href="https://www.canva.com/design/DAHASYXbSD4/fEE-9t801q389m3yr0VEmQ/view?utm_content=DAHASYXbSD4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hd1da635285" target="_blank" class="trendboard-link">
           View Board <span class="trendboard-link-arrow">→</span>
         </a>
       </div>
@@ -1351,13 +1296,19 @@ footer{
     </div>
     <div class="featured-images reveal">
       <div class="featured-img-main">
-        <img src="assets/images/strawberry-vizcom.jpg" alt="Strawberry skirt Vizcom render"
-             onerror="this.style.display='none';">
+        <!-- Replace with your Vizcom render: <img src="vizcom-render.jpg" alt="Vizcom render"> -->
+        <div class="project-placeholder" style="background: linear-gradient(145deg, #1a1a1a, #2d2d2d); color: #444; position:absolute; inset:0;">
+          <div class="p-icon" style="font-size:2rem; opacity:0.3;">🍓</div>
+          <span>Vizcom Render</span>
+        </div>
         <div class="featured-img-tag">AI Render — Vizcom</div>
       </div>
-    
       <div class="featured-img-secondary">
-        <img src="assets/images/strawberry-sketch.jpg" alt="Strawberry skirt original sketch">
+        <!-- Replace with your sketch: <img src="sketch.jpg" alt="Original sketch"> -->
+        <div class="project-placeholder" style="background: linear-gradient(145deg, #222, #333); color: #444; position:absolute; inset:0;">
+          <div class="p-icon" style="font-size:1.5rem; opacity:0.3;">✏️</div>
+          <span>Original Sketch</span>
+        </div>
         <div class="featured-img-tag">Original Sketch</div>
       </div>
     </div>
@@ -1369,11 +1320,19 @@ footer{
   <div class="featured-inner" style="grid-template-columns: 1fr 1fr;">
     <div class="featured-images reveal" style="order: 1;">
       <div class="featured-img-main">
-        <img src="assets/images/bamboo-final.jpg" alt="Finished Bamboo Frames">
+        <!-- Replace with: <img src="bamboo-frames.jpg" alt="Bamboo sunglasses frames"> -->
+        <div class="project-placeholder" style="background: linear-gradient(145deg, #1c1a16, #2e2a20); color: #444; position:absolute; inset:0;">
+          <div class="p-icon" style="font-size:2rem; opacity:0.3;">🕶️</div>
+          <span>Finished Bamboo Frames</span>
+        </div>
         <div class="featured-img-tag">Laser-Cut Bamboo — Final Piece</div>
       </div>
       <div class="featured-img-secondary">
-        <img src="assets/images/bamboo-illustrator.jpg" alt="Adobe Illustrator Cut File">
+        <!-- Replace with: <img src="bamboo-illustrator.jpg" alt="Illustrator file"> -->
+        <div class="project-placeholder" style="background: linear-gradient(145deg, #1a1a18, #252520); color: #444; position:absolute; inset:0;">
+          <div class="p-icon" style="font-size:1.5rem; opacity:0.3;">⬡</div>
+          <span>Adobe Illustrator File</span>
+        </div>
         <div class="featured-img-tag">Adobe Illustrator — Cut File</div>
       </div>
     </div>
@@ -1411,13 +1370,8 @@ footer{
           </div>
         </div>
       </div>
-      <a href="assets/docs/Bamboo-Shades.pdf"
-   target="_blank"
-   style="display:inline-flex; align-items:center; gap:12px; margin-top:36px; font-size:0.6rem; letter-spacing:0.25em; text-transform:uppercase; background:var(--white); color:var(--black); text-decoration:none; padding:14px 28px; transition:opacity 0.2s;"
-   onmouseover="this.style.opacity='0.7'"
-   onmouseout="this.style.opacity='1'">
-  View Project PDF <span>→</span>
-</a>
+      <a href="YOUR-BAMBOO-CANVA-LINK-HERE"        View on Canva <span>→</span>
+      </a>
     </div>
   </div>
 </section>
@@ -1456,9 +1410,7 @@ footer{
         </div>
         <div class="timeline-card-bottom">
           <span class="timeline-course">VT Fashion Merchandising — Freshman Year</span>
-          <a href="assets/docs/MaroonOrange-SS25.pdf" target="_blank" class="timeline-pdf-link">
-            View Full Project <span>→</span>
-          </a>
+          <a href="Final_project-2.pdf" target="_blank" class="timeline-pdf-link">View Full Project <span>→</span></a>
         </div>
       </div>
     </div>
@@ -1486,9 +1438,7 @@ footer{
         </div>
         <div class="timeline-card-bottom">
           <span class="timeline-course">VT Fashion Design — Sophomore Year · Dec 2024</span>
-          <a href="assets/docs/Mirror-Palais-Spring-2026.pdf" target="_blank" class="timeline-pdf-link">
-            View Full Project <span>→</span>
-          </a>
+          <a href="Mirror_Palais_Spring_2026-2.pdf" target="_blank" class="timeline-pdf-link">View Full Project <span>→</span></a>
         </div>
       </div>
     </div>
@@ -1518,10 +1468,7 @@ footer{
         </div>
         <div class="timeline-card-bottom">
           <span class="timeline-course">VT Apparel Product Development — Junior Year · April 2025</span>
-          <a href="assets/docs/OutcastAura-SpringCollection.pdf" target="_blank" class="timeline-pdf-link">
-            View Full Project <span>→</span>
-          </a>            View Full Project <span>→</span>
-          </a>
+          <a href="LeeA_assign7.pdf" target="_blank" class="timeline-pdf-link">View Full Project <span>→</span></a>
         </div>
       </div>
     </div>
