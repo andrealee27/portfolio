@@ -149,11 +149,11 @@
 
   /* Hero */
   .hero {
-    min-height: 100vh;
+    min-height: 92vh;
     background: var(--black);
     display: flex;
     align-items: center;
-    padding: 120px 56px 80px;
+    padding: 120px 56px 60px;
     position: relative;
     overflow: hidden;
   }
@@ -250,11 +250,13 @@
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
   /* Ticker */
+  /* --- tweak: raise ticker up --- */
   .ticker {
     background: var(--black);
     border-top: 1px solid #1c1c1c;
     padding: 13px 0;
     overflow: hidden;
+    margin-top: -16px;   /* <-- ADD THIS */
   }
   .ticker-track {
     display: flex;
@@ -411,11 +413,16 @@
     gap: 2px;
   }
   .sketch-item {
-    overflow: hidden;
-    position: relative;
-    background: #111;
-    aspect-ratio: 3/4;
-  }
+  overflow: hidden;
+  position: relative;
+  background: #111;
+}
+
+.sketch-item::before {
+  content: "";
+  display: block;
+  padding-top: 133.33%; /* 3:4 ratio */
+}
   .sketch-placeholder {
     position: absolute;
     inset: 0;
@@ -614,16 +621,34 @@
     gap: 2px;
   }
   .featured-img-main,
-  .featured-img-secondary {
-    position: relative;
-    overflow: hidden;
-  }
-  .featured-img-main img,
-  .featured-img-secondary img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
-  }
+.featured-img-secondary {
+  position: relative;
+  overflow: hidden;
+}
+
+/* main image stays cropped (good) */
+.featured-img-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* sketch: center + show full image */
+.featured-img-secondary{
+  overflow: hidden; /* keep */
+  background: #0a0a0a; /* optional */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.featured-img-secondary img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;   /* key */
+  display: block;
+}
   .featured-img-tag {
     position: absolute;
     top: 16px; left: 16px;
@@ -899,95 +924,187 @@
   }
 
   /* ─── CONTACT ─── */
-  .contact {
-    padding: 160px 56px;
-    background: var(--white);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .contact-bg {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(6rem, 18vw, 18rem);
-    font-weight: 900;
-    color: var(--cream);
-    white-space: nowrap;
-    pointer-events: none;
-    user-select: none;
-    z-index: 0;
-  }
-  .contact-inner { position: relative; z-index: 1; }
-  .contact .section-label { display: block; margin-bottom: 24px; }
-  .contact-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(3rem, 8vw, 8rem);
-    font-weight: 900;
-    line-height: 0.95;
-    margin-bottom: 56px;
-  }
-  .contact-title em { font-style: italic; font-weight: 400; color: var(--gray); }
-  .contact-email {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.6rem;
-    font-style: italic;
-    color: var(--black);
-    text-decoration: none;
-    border-bottom: 1px solid var(--light-gray);
-    padding-bottom: 4px;
-    transition: border-color 0.2s;
-  }
-  .contact-email:hover { border-color: var(--black); }
-  .contact-links {
-    display: flex;
-    justify-content: center;
-    gap: 48px;
-    margin-top: 80px;
-    padding-top: 48px;
-    border-top: 1px solid var(--light-gray);
-  }
-  .contact-links a {
-    font-size: 0.58rem;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--gray);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  .contact-links a:hover { color: var(--black); }
+  
+.contact {
+  padding: 140px 56px;
+  background: var(--white);
+}
 
-  footer {
-    background: var(--black);
-    padding: 22px 56px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  footer span {
-    font-size: 0.58rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #333;
-  }
+.contact-wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 80px;
+  align-items: start;
+}
 
-  @media (max-width: 900px) {
-    nav { padding: 20px 24px; }
-    .hero { padding: 60px 24px; }
-    .hero-content { flex-direction: column; align-items: flex-start; gap: 32px; }
-    .hero-right { text-align: left; }
-    .styling, .sketches, .lookbooks, .classwork, .about, .contact { padding: 80px 24px; }
-    .styling-grid { grid-template-columns: 1fr; }
-    .styling-item:nth-child(1) { grid-row: auto; }
-    .sketches-grid { grid-template-columns: 1fr; }
-    .sketches-grid .sketch-item { aspect-ratio: 4/3; }
-    .lookbooks-layout { grid-template-columns: 1fr; }
-    .classwork-item { grid-template-columns: 48px 1fr auto; gap: 16px; padding: 24px; }
-    .about { grid-template-columns: 1fr; }
-    .about-portrait { display: none; }
-    footer { flex-direction: column; gap: 8px; }
+/* left column */
+.contact-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3.2rem, 5vw, 5rem);
+  font-weight: 700;          /* <- stronger */
+  line-height: 1;
+  color: var(--black);
+  margin-bottom: 18px;
+}
+
+.contact-subtext {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-style: italic;
+  line-height: 1.8;
+  color: #333;               /* <- darker */
+  max-width: 360px;
+}
+
+/* form */
+.contact-form label {
+  display: block;
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #111;               /* <- darker */
+  margin-bottom: 10px;
+}
+
+.contact-form .req {
+  text-transform: none;
+  letter-spacing: 0;
+  opacity: 0.6;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.field { margin-bottom: 18px; }
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  border: 1px solid var(--light-gray);
+  background: transparent;
+  padding: 12px 12px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  color: var(--black);
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: #777;
+}
+
+.contact-form textarea { resize: vertical; }
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: var(--black);
+}
+
+.submit-btn {
+  margin-top: 14px;
+  border: 1px solid var(--black);
+  background: transparent;
+  padding: 14px 34px;
+  border-radius: 999px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.submit-btn:hover {
+  background: var(--black);
+  color: var(--white);
+}
+
+@media (max-width: 900px) {
+  .contact { padding: 90px 24px; }
+  .contact-wrap { grid-template-columns: 1fr; gap: 40px; }
+  .form-row { grid-template-columns: 1fr; }
+}
+/* ─── CONTACT COLOR FIX (true black) ─── */
+#contact,
+#contact * {
+  color: var(--black) !important;
+  opacity: 1 !important;
+}
+
+#contact .contact-heading,
+#contact .contact-subtext,
+#contact label,
+#contact input,
+#contact textarea,
+#contact button {
+  color: var(--black) !important;
+  -webkit-text-fill-color: var(--black) !important;
+}
+
+/* placeholders slightly lighter but still readable */
+#contact input::placeholder,
+#contact textarea::placeholder{
+  color: #555 !important;
+  opacity: 1 !important;
+}
+/* ─── FOOTER ─── */
+footer{
+  padding: 40px 56px;
+  border-top: 1px solid var(--light-gray);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+@media (max-width:900px){
+  footer{
+    padding: 28px 24px;
+    flex-direction: column;
+    align-items: flex-start;
   }
+}
+/* CONTACT — bigger + true black */
+#contact .contact-heading{
+  font-size: clamp(3.8rem, 6vw, 6rem); /* bigger */
+  font-weight: 900;
+  color: #000 !important;              /* true black */
+  -webkit-text-fill-color: #000 !important;
+}
+
+#contact .contact-subtext{
+  font-size: 1.35rem;                  /* bigger */
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+}
+
+#contact label{
+  font-size: 0.68rem;                  /* bigger */
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+}
+
+#contact input,
+#contact textarea{
+  font-size: 1rem;                     /* bigger */
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+}
+
+#contact input::placeholder,
+#contact textarea::placeholder{
+  color: #444 !important;
+}
 </style>
 </head>
 <body>
@@ -1007,12 +1124,12 @@
 <nav>
   <a href="#" class="nav-logo">Andrea Lee — Fashion Creative</a>
   <ul class="nav-links">
+    <li><a href="#about">About</a></li>
     <li><a href="#sketches">Sketches</a></li>
     <li><a href="#lookbooks">Trendboards</a></li>
     <li><a href="#featured">Strawberry Skirt</a></li>
     <li><a href="#bamboo">Bamboo Frames</a></li>
     <li><a href="#classwork">Class Work</a></li>
-    <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -1029,10 +1146,10 @@
     </div>
     <div class="hero-right">
       <p class="hero-desc">From sketch to Vizcom render to finished garment — I design, build, and style from the ground up.</p>
-      <div class="hero-scroll">
-        <span>View work</span>
-        <div class="scroll-line"></div>
-      </div>
+      <div class="hero-scroll" id="viewWorkBtn" role="button" tabindex="0">
+  <span>View work</span>
+  <div class="scroll-line"></div>
+</div>
     </div>
   </div>
 </div>
@@ -1055,6 +1172,35 @@
   </div>
 </div>
 
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-portrait">
+    <img src="assets/images/about-portrait.jpg" alt="Andrea Lee portrait"
+         style="width:100%;height:100%;object-fit:cover;display:block;">
+  </div>
+  <div class="about-text reveal">
+    <p class="section-label">About</p>
+    <h2 class="section-title">Hi, I'm<br><em>Andrea.</em></h2>
+    <p class="about-body">I'm a junior studying Fashion Merchandising and Design at Virginia Tech, with a passion for the full creative process — from concept to construction to the final styled image. I'm drawn to work that lives at the intersection of research, design, and storytelling.</p>
+    <p class="about-body">Right now I'm developing an independent project: a strawberry miniskirt with pleats that started as a hand sketch, went through a 2D AI rendering on Vizcom, and is currently being sewn by hand — finishing with a full styled photoshoot. It's the kind of end-to-end creative practice I bring to everything I do.</p>
+    <div class="about-divider"></div>
+    <div class="about-stats">
+      <div>
+        <div class="stat-num">6</div>
+        <div class="stat-lbl">Projects</div>
+      </div>
+      <div>
+        <div class="stat-num">3</div>
+        <div class="stat-lbl">Categories</div>
+      </div>
+      <div>
+        <div class="stat-num">1</div>
+        <div class="stat-lbl">Vision</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- SKETCHES -->
 <section class="sketches" id="sketches">
   <div class="section-header reveal">
@@ -1066,30 +1212,34 @@
   </div>
   <div class="sketches-grid reveal">
 
-    <!-- Shearling Jacket Croquis -->
-    <div class="sketch-item">
-      <img class="project-img" src="Project_12_-_Andrea_Lee.pdf" alt="Shearling jacket fashion croquis"
-           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-      <div class="sketch-placeholder" style="display:none;">
-        <div class="p-icon">✏️</div><span>Shearling Jacket Croquis</span>
-      </div>
-      <!-- To display: convert PDF to JPG and replace src above with the image filename -->
-      <div class="sketch-placeholder">
-        <div class="p-icon">✏️</div>
-        <span>Shearling Jacket Croquis</span>
-      </div>
-      <div class="project-caption">
-        <p class="project-caption-cat">Fashion Croquis — Watercolor & Ink</p>
-        <p class="project-caption-title">Shearling Jacket Look</p>
-      </div>
-    </div>
+    <!-- Vogue Model Sketch -->
+<div class="sketch-item">
+  <img class="project-img"
+       src="assets/images/vogue-model.jpg"
+       alt="Vogue model sketch"
+       onerror="this.style.display='none'; this.closest('.sketch-item').querySelector('.sketch-placeholder').style.display='flex';">
+
+  <div class="sketch-placeholder" style="display:none;">
+    <div class="p-icon">✏️</div>
+    <span>Vogue Model Sketch</span>
+  </div>
+
+  <div class="project-caption">
+    <p class="project-caption-cat">Figure Study — Pencil</p>
+    <p class="project-caption-title">Vogue Model Study</p>
+  </div>
+</div>
 
     <!-- Upside Down Shoe Study -->
     <div class="sketch-item">
-      <div class="sketch-placeholder" style="background: linear-gradient(145deg, #222, #333);">
+      <img class="project-img" src="assets/images/upside-down-shoe.jpg" alt="Upside-down shoe sketch"
+           onerror="this.style.display='none'; this.closest('.sketch-item').querySelector('.sketch-placeholder').style.display='flex';">
+    
+      <div class="sketch-placeholder" style="display:none; background: linear-gradient(145deg, #222, #333);">
         <div class="p-icon">✏️</div>
         <span>Shoe Observational Study</span>
       </div>
+    
       <div class="project-caption">
         <p class="project-caption-cat">Observational Drawing — Pencil & Watercolor</p>
         <p class="project-caption-title">Upside-Down Shoe Study</p>
@@ -1098,10 +1248,7 @@
 
     <!-- Sunglasses Sketches -->
     <div class="sketch-item">
-      <div class="sketch-placeholder" style="background: linear-gradient(145deg, #181818, #282828);">
-        <div class="p-icon">✏️</div>
-        <span>Sunglasses Sketches</span>
-      </div>
+      <img class="project-img" src="assets/images/sunglasses-sketch.jpg" alt="Sunglasses sketches">
       <div class="project-caption">
         <p class="project-caption-cat">Accessory Sketches — Pencil</p>
         <p class="project-caption-title">Sunglasses Series</p>
@@ -1110,10 +1257,11 @@
 
   </div>
 
-  <!-- Sketch note -->
+  <!-- Sketch note 
   <p style="margin-top: 24px; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: #444; text-align: right;">
     To show images: export PDFs as JPGs, rename to <em style="text-transform:none; letter-spacing:0;">sketch-jacket.jpg</em>, <em style="text-transform:none; letter-spacing:0;">sketch-shoes.jpg</em>, <em style="text-transform:none; letter-spacing:0;">sketch-sunglasses.jpg</em> and place in same folder as this HTML file, then update the <code style="font-size:0.65rem;">src</code> on each sketch item.
   </p>
+  -->
 </section>
 
 <!-- TRENDBOARDS -->
@@ -1127,54 +1275,39 @@
   </div>
   <div class="trendboards-grid reveal">
 
-    <!-- Lingerie Trendboard 1 -->
+    <!-- Lingerie Trendboard -->
     <div class="trendboard-card">
       <div class="trendboard-card-top">
         <span class="trendboard-tag">Lingerie</span>
-        <h3 class="trendboard-title">Lingerie Trendboard I</h3>
+        <h3 class="trendboard-title">Lingerie Trendboard</h3>
         <p class="trendboard-subtitle">Replace with your board's theme or direction</p>
         <p class="trendboard-desc">Add a short description of this trendboard — what trend you identified, what brands or runway shows informed it, and what story it tells.</p>
       </div>
       <div class="trendboard-card-bottom">
         <span class="trendboard-season">SS / AW 2025</span>
-        <a href="YOUR-CANVA-LINK-HERE" target="_blank" class="trendboard-link">
-          View Board <span class="trendboard-link-arrow">→</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- Lingerie Trendboard 2 -->
-    <div class="trendboard-card">
-      <div class="trendboard-card-top">
-        <span class="trendboard-tag">Lingerie</span>
-        <h3 class="trendboard-title">Lingerie Trendboard II</h3>
-        <p class="trendboard-subtitle">Replace with your board's theme or direction</p>
-        <p class="trendboard-desc">Add a short description of this trendboard — what trend you identified, what brands or runway shows informed it, and what story it tells.</p>
-      </div>
-      <div class="trendboard-card-bottom">
-        <span class="trendboard-season">SS / AW 2025</span>
-        <a href="YOUR-CANVA-LINK-HERE" target="_blank" class="trendboard-link">
-          View Board <span class="trendboard-link-arrow">→</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- Sunglasses Trendboard -->
-    <div class="trendboard-card">
-      <div class="trendboard-card-top">
-        <span class="trendboard-tag">Accessories</span>
-        <h3 class="trendboard-title">Sunglasses Trendboard</h3>
-        <p class="trendboard-subtitle">Oversized silhouettes & shield lenses</p>
-        <p class="trendboard-desc">A trend research board exploring the resurgence of oversized and shield-frame sunglasses across runway and street style. Pulling references from Saint Laurent, Balenciaga, and beyond.</p>
-      </div>
-      <div class="trendboard-card-bottom">
-        <span class="trendboard-season">SS 2025</span>
+        <!-- This is the Canva link that was mistakenly on Bamboo -->
         <a href="https://www.canva.com/design/DAHASYXbSD4/fEE-9t801q389m3yr0VEmQ/view?utm_content=DAHASYXbSD4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hd1da635285" target="_blank" class="trendboard-link">
           View Board <span class="trendboard-link-arrow">→</span>
         </a>
       </div>
     </div>
-
+  
+    <!-- Sunglasses Trendboard -->
+    <div class="trendboard-card">
+      <div class="trendboard-card-top">
+        <span class="trendboard-tag">Accessories</span>
+        <h3 class="trendboard-title">Sunglasses Trendboard</h3>
+        <p class="trendboard-subtitle">Oversized silhouettes &amp; shield lenses</p>
+        <p class="trendboard-desc">A trend research board exploring the resurgence of oversized and shield-frame sunglasses across runway and street style. Pulling references from Saint Laurent, Balenciaga, and beyond.</p>
+      </div>
+      <div class="trendboard-card-bottom">
+        <span class="trendboard-season">SS 2025</span>
+        <a href=https://www.canva.com/design/DAHBh_i-jkY/vHzj1oypeTZJGThBIHnjcg/view?utm_content=DAHBh_i-jkY&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h33903455b8 target="_blank" class="trendboard-link">
+          View Board <span class="trendboard-link-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  
   </div>
 </section>
 
@@ -1218,19 +1351,13 @@
     </div>
     <div class="featured-images reveal">
       <div class="featured-img-main">
-        <!-- Replace with your Vizcom render: <img src="vizcom-render.jpg" alt="Vizcom render"> -->
-        <div class="project-placeholder" style="background: linear-gradient(145deg, #1a1a1a, #2d2d2d); color: #444; position:absolute; inset:0;">
-          <div class="p-icon" style="font-size:2rem; opacity:0.3;">🍓</div>
-          <span>Vizcom Render</span>
-        </div>
+        <img src="./assets/images/strawberry-vizcom.jpg" alt="Strawberry skirt Vizcom render">
+             onerror="this.style.display='none';">
         <div class="featured-img-tag">AI Render — Vizcom</div>
       </div>
+    
       <div class="featured-img-secondary">
-        <!-- Replace with your sketch: <img src="sketch.jpg" alt="Original sketch"> -->
-        <div class="project-placeholder" style="background: linear-gradient(145deg, #222, #333); color: #444; position:absolute; inset:0;">
-          <div class="p-icon" style="font-size:1.5rem; opacity:0.3;">✏️</div>
-          <span>Original Sketch</span>
-        </div>
+        <img src="assets/images/strawberry-sketch.jpg" alt="Strawberry skirt original sketch">
         <div class="featured-img-tag">Original Sketch</div>
       </div>
     </div>
@@ -1242,19 +1369,11 @@
   <div class="featured-inner" style="grid-template-columns: 1fr 1fr;">
     <div class="featured-images reveal" style="order: 1;">
       <div class="featured-img-main">
-        <!-- Replace with: <img src="bamboo-frames.jpg" alt="Bamboo sunglasses frames"> -->
-        <div class="project-placeholder" style="background: linear-gradient(145deg, #1c1a16, #2e2a20); color: #444; position:absolute; inset:0;">
-          <div class="p-icon" style="font-size:2rem; opacity:0.3;">🕶️</div>
-          <span>Finished Bamboo Frames</span>
-        </div>
+        <img src="assets/images/bamboo-final.jpg" alt="Finished Bamboo Frames">
         <div class="featured-img-tag">Laser-Cut Bamboo — Final Piece</div>
       </div>
       <div class="featured-img-secondary">
-        <!-- Replace with: <img src="bamboo-illustrator.jpg" alt="Illustrator file"> -->
-        <div class="project-placeholder" style="background: linear-gradient(145deg, #1a1a18, #252520); color: #444; position:absolute; inset:0;">
-          <div class="p-icon" style="font-size:1.5rem; opacity:0.3;">⬡</div>
-          <span>Adobe Illustrator File</span>
-        </div>
+        <img src="assets/images/bamboo-illustrator.jpg" alt="Adobe Illustrator Cut File">
         <div class="featured-img-tag">Adobe Illustrator — Cut File</div>
       </div>
     </div>
@@ -1292,11 +1411,17 @@
           </div>
         </div>
       </div>
-      <a href="https://www.canva.com/design/DAG503A6vuk/w7XnAObes6h8sDO4bbMAHw/edit" target="_blank" style="display:inline-flex; align-items:center; gap:12px; margin-top:36px; font-size:0.6rem; letter-spacing:0.25em; text-transform:uppercase; background:var(--white); color:var(--black); text-decoration:none; padding:14px 28px; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">
-        View on Canva <span>→</span>
-      </a>
+      <a href="assets/docs/Bamboo-Shades.pdf"
+   target="_blank"
+   style="display:inline-flex; align-items:center; gap:12px; margin-top:36px; font-size:0.6rem; letter-spacing:0.25em; text-transform:uppercase; background:var(--white); color:var(--black); text-decoration:none; padding:14px 28px; transition:opacity 0.2s;"
+   onmouseover="this.style.opacity='0.7'"
+   onmouseout="this.style.opacity='1'">
+  View Project PDF <span>→</span>
+</a>
     </div>
   </div>
+</section>
+
 <section class="classwork" id="classwork">
   <div class="section-header reveal">
     <div class="section-meta">
@@ -1331,7 +1456,9 @@
         </div>
         <div class="timeline-card-bottom">
           <span class="timeline-course">VT Fashion Merchandising — Freshman Year</span>
-          <a href="Final_project-2.pdf" target="_blank" class="timeline-pdf-link">View Full Project <span>→</span></a>
+          <a href="assets/docs/MaroonOrange-SS25.pdf" target="_blank" class="timeline-pdf-link">
+            View Full Project <span>→</span>
+          </a>
         </div>
       </div>
     </div>
@@ -1359,7 +1486,9 @@
         </div>
         <div class="timeline-card-bottom">
           <span class="timeline-course">VT Fashion Design — Sophomore Year · Dec 2024</span>
-          <a href="Mirror_Palais_Spring_2026-2.pdf" target="_blank" class="timeline-pdf-link">View Full Project <span>→</span></a>
+          <a href="assets/docs/Mirror-Palais-Spring-2026.pdf" target="_blank" class="timeline-pdf-link">
+            View Full Project <span>→</span>
+          </a>
         </div>
       </div>
     </div>
@@ -1389,7 +1518,10 @@
         </div>
         <div class="timeline-card-bottom">
           <span class="timeline-course">VT Apparel Product Development — Junior Year · April 2025</span>
-          <a href="LeeA_assign7.pdf" target="_blank" class="timeline-pdf-link">View Full Project <span>→</span></a>
+          <a href="assets/docs/OutcastAura-SpringCollection.pdf" target="_blank" class="timeline-pdf-link">
+            View Full Project <span>→</span>
+          </a>           
+          </a>
         </div>
       </div>
     </div>
@@ -1397,48 +1529,45 @@
   </div>
 </section>
 
-<!-- ABOUT -->
-<section class="about" id="about">
-  <div class="about-portrait">
-    <div class="p-icon">👤</div>
-    <span>Your Portrait</span>
-  </div>
-  <div class="about-text reveal">
-    <p class="section-label">About</p>
-    <h2 class="section-title">Hi, I'm<br><em>Andrea.</em></h2>
-    <p class="about-body">I'm a junior studying Fashion Merchandising and Design at Virginia Tech, with a passion for the full creative process — from concept to construction to the final styled image. I'm drawn to work that lives at the intersection of research, design, and storytelling.</p>
-    <p class="about-body">Right now I'm developing an independent project: a strawberry miniskirt with pleats that started as a hand sketch, went through a 2D AI rendering on Vizcom, and is currently being sewn by hand — finishing with a full styled photoshoot. It's the kind of end-to-end creative practice I bring to everything I do.</p>
-    <div class="about-divider"></div>
-    <div class="about-stats">
-      <div>
-        <div class="stat-num">6</div>
-        <div class="stat-lbl">Projects</div>
-      </div>
-      <div>
-        <div class="stat-num">3</div>
-        <div class="stat-lbl">Categories</div>
-      </div>
-      <div>
-        <div class="stat-num">1</div>
-        <div class="stat-lbl">Vision</div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- CONTACT -->
 <section class="contact" id="contact">
-  <div class="contact-bg">CONTACT</div>
-  <div class="contact-inner reveal">
-    <span class="section-label">Let's Connect</span>
-    <h2 class="contact-title">Say<br><em>Hello.</em></h2>
-    <a href="mailto:andrealee686@gmail.com" class="contact-email">andrealee686@gmail.com</a>
-    <div class="contact-links">
-      <a href="#">Instagram</a>
-      <a href="https://www.linkedin.com/in/theandrealee" target="_blank">LinkedIn</a>
-      <a href="#">Behance</a>
-      <a href="#">Download CV</a>
+  <div class="contact-wrap reveal">
+    <div class="contact-left">
+      <h2 class="contact-heading">Contact</h2>
+      <p class="contact-subtext">Reach out for collaborations, internships, or project inquiries.</p>
     </div>
+
+    <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <div class="form-row">
+        <div class="field">
+          <label for="firstName">First Name <span class="req">(required)</span></label>
+          <input id="firstName" name="firstName" type="text" required>
+        </div>
+
+        <div class="field">
+          <label for="lastName">Last Name <span class="req">(required)</span></label>
+          <input id="lastName" name="lastName" type="text" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email <span class="req">(required)</span></label>
+        <input id="email" name="email" type="email" required>
+      </div>
+
+      <div class="field">
+        <label for="subject">Subject <span class="req">(required)</span></label>
+        <input id="subject" name="subject" type="text" required>
+      </div>
+
+      <div class="field">
+        <label for="message">Message <span class="req">(required)</span></label>
+        <textarea id="message" name="message" rows="6" required></textarea>
+      </div>
+
+      <button class="submit-btn" type="submit">Submit</button>
+    </form>
   </div>
 </section>
 
@@ -1451,9 +1580,11 @@
   // Custom cursor
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
-  document.addEventListener('mousemove', e => {
+
+  document.addEventListener('mousemove', (e) => {
     cursor.style.left = e.clientX + 'px';
     cursor.style.top = e.clientY + 'px';
+
     setTimeout(() => {
       ring.style.left = e.clientX + 'px';
       ring.style.top = e.clientY + 'px';
@@ -1462,7 +1593,7 @@
 
   // ── Nav transition ──
   const overlay = document.getElementById('transitionOverlay');
-  const label   = document.getElementById('transitionLabel');
+  const label = document.getElementById('transitionLabel');
 
   const sectionNames = {
     '#styling':   'Styling Projects',
@@ -1476,36 +1607,58 @@
   };
 
   function runTransition(targetId, targetName) {
-    // Wipe in
     overlay.classList.remove('is-leaving');
     overlay.classList.add('is-entering');
-    label.textContent = targetName;
+
+    label.textContent = targetName || '';
     label.classList.add('visible');
 
     setTimeout(() => {
-      // Jump scroll silently
-      document.querySelector(targetId).scrollIntoView({ behavior: 'instant' });
+      const el = document.querySelector(targetId);
+      if (el) el.scrollIntoView({ behavior: 'auto' });
 
-      // Wipe out
       overlay.classList.remove('is-entering');
       overlay.classList.add('is-leaving');
       label.classList.remove('visible');
 
-      setTimeout(() => {
-        overlay.classList.remove('is-leaving');
-      }, 700);
+      setTimeout(() => overlay.classList.remove('is-leaving'), 700);
     }, 700);
   }
 
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', e => {
+  document.querySelectorAll('.nav-links a').forEach((link) => {
+    link.addEventListener('click', (e) => {
       const href = link.getAttribute('href');
       if (!href || !href.startsWith('#')) return;
       e.preventDefault();
-      const name = sectionNames[href] || '';
-      runTransition(href, name);
+      runTransition(href, sectionNames[href] || '');
     });
   });
 
+  // Hero "View work" -> Class Work
+const viewBtn = document.getElementById('viewWorkBtn');
+if (viewBtn) {
+  const go = () => runTransition('#classwork', sectionNames['#classwork'] || 'Class Work');
+
+  viewBtn.addEventListener('click', go);
+  viewBtn.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      go();
+    }
+  });
+}
+
   // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal
+  const reveals = document.querySelectorAll('.reveal');
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  reveals.forEach((el) => io.observe(el));
+</script>
